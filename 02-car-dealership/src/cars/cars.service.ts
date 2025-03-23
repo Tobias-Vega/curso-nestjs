@@ -1,36 +1,77 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Car } from './interfaces/car.interface';
+import { v7 as uuidv7 } from 'uuid';
+import { CreateCarDto, UpdateCarDto } from './dto';
 
 @Injectable()
 export class CarsService {
 
-    private cars = [
-      {
-        id: 1,
-        brand: 'Toyota',
-        model: 'Corolla'
-      },
-      {
-        id: 2,
-        brand: 'Honda',
-        model: 'Civic'
-      },
-      {
-        id: 3,
-        brand: 'Jeep',
-        model: 'Cherokee'
+  private cars: Car[] = [
+    {
+      id: uuidv7(),
+      brand: 'Toyota',
+      model: 'Corolla'
+    },
+    {
+      id: uuidv7(),
+      brand: 'Honda',
+      model: 'Civic'
+    },
+    {
+      id: uuidv7(),
+      brand: 'Jeep',
+      model: 'Cherokee'
+    }
+  ];
+
+  findAll() {
+    return this.cars;
+  }
+
+  findOneById(id: string) {
+
+    const car = this.cars.find(car => car.id === id);
+
+    if (!car) throw new NotFoundException(`Car with id ${id} not found`);
+
+    return car;
+  }
+
+  create(createCarDto: CreateCarDto) {
+
+    const newCar: Car = {
+      id: uuidv7(),
+      ...createCarDto
+    }
+
+    this.cars.push(newCar);
+
+    return newCar;
+  }
+
+  update(id: string, updateCarDto: UpdateCarDto) {
+
+    let carDB = this.findOneById(id);
+
+    if (updateCarDto.id && updateCarDto.id !== id) {
+      throw new BadRequestException(`Car id is not valid inside body`)
+    }
+
+    this.cars = this.cars.map(car => {
+      if (car.id === id) {
+        carDB = { ...carDB,...updateCarDto, id }
+        return carDB;
       }
-    ];
+      return car;
 
-    findAll() {
-      return this.cars;
-    }
+    })
 
-    findOneById(id: number) {
+    return carDB;
+  }
 
-      const car = this.cars.find(car => car.id === id)
+  delete(id: string) {
+    const car = this.findOneById(id);
 
-      if (!car) throw new NotFoundException(`Car with id ${id} not found`);
-      
-      return car
-    }
+    this.cars = this.cars.filter(car => car.id !== id);
+  }
 }
