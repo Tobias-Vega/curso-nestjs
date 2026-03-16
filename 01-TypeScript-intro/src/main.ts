@@ -1,4 +1,4 @@
-import { charmander } from './bases/05-decorators';
+import { charmander } from './bases/06-decorators2';
 import './style.css';
 // import { name, age } from './bases/01-types';
 // import { bulbasaur } from './bases/02-objects';
