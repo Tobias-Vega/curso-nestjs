@@ -6,7 +6,7 @@ export const isValid: boolean = true;
 
 console.log({isValid});
 
-name = 'Meliisa';
+name = 'Melissa';
 
 export const templateString = ` Esto es un string
 multilínea
