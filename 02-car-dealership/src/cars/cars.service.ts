@@ -22,7 +22,7 @@ export class CarsService {
     },
     {
       id: uuid(),
-      brand: 'Toyota',
+      brand: 'Jeep',
       model: 'Cherokee',
     },
   ];
