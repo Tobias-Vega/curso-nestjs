@@ -20,6 +20,17 @@ npm i -g @nestjs/cli
 docker-compose up -d
 ```
 
+5. Ejecutar la aplicación
+```
+yarn start:dev
+```
+
+6. Reconstruir la base de datos con la semilla
+```
+http://localhost:3000/api/v2s/seed
+```
+
+
 ## Stack usado
 * MongoDB
 * NestJS
