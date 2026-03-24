@@ -6,17 +6,22 @@
 
 1. Clonar el proyecto
 
-2. Levantar la base de datos
-```
-docker-compose up -d
-```
-
-3. Instalar las dependencias
+2. Instalar las dependencias
 ```
 yarn install
 ```
 
-4. Ejecutar la aplicación en desarrollo
+3. Clonar el archivo __env.template__ y renombrarlo a __.env__
+
+4. Configurar las variables de entorno en el archivo __.env__
+
+5. Levantar la base de datos
+```
+docker-compose up -d
+```
+
+
+6. Ejecutar la aplicación en desarrollo
 ```
 yarn start:dev
 ```
