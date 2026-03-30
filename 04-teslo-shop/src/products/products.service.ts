@@ -99,12 +99,27 @@ export class ProductsService {
 
     // Create query runner
     const queryRunner = this.datasource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
 
     try {
-      await this.productRepository.save(product);
+      if (images) {
+        await queryRunner.manager.delete(ProductImage, { product: { id } });
+        product.images = images.map((image) =>
+          this.productImageRepository.create({ url: image }),
+        );
+      }
 
-      return product;
+      await queryRunner.manager.save(product);
+
+      await queryRunner.commitTransaction();
+      await queryRunner.release();
+
+      return this.findOnePlain(id);
     } catch (error) {
+      await queryRunner.rollbackTransaction();
+      await queryRunner.release();
+
       this.handleDBExceptions(error);
     }
   }
