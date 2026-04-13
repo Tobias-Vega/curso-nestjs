@@ -5,10 +5,11 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { FilesService } from './files.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { fileFilter } from './helpers/fileFilter.helper';
 import { diskStorage } from 'multer';
+import { FilesService } from './files.service';
+import { fileNamer, fileFilter } from './helpers/';
+
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
@@ -20,6 +21,7 @@ export class FilesController {
       // limits: { fileSize: 1000 },
       storage: diskStorage({
         destination: './static/uploads',
+        filename: fileNamer,
       }),
     }),
   )
