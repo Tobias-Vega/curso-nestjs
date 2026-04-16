@@ -7,7 +7,7 @@ import { ValidRoles } from '../auth/interfaces';
 export class SeedController {
   constructor(private readonly seedService: SeedService) {}
   @Get()
-  @Auth(ValidRoles.admin)
+  // @Auth(ValidRoles.admin)
   findAll() {
     return this.seedService.executeSeed();
   }
